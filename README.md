@@ -1,0 +1,2 @@
+# Internet-use-trajectories-and-long-term-health-outcomes-among-middle-aged-and-older-adults
+Study of U.S. adults 50+ (Health and Retirement Study, 2002-2019) links sustained internet use trajectories with 37-44% lower mortality, reduced dementia risk, and better mental health vs. non-users. Analysis code included. Highlights digital engagement’s role in healthy aging and persistent access disparities.
