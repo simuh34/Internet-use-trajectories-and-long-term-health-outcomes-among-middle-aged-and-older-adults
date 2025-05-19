@@ -5,7 +5,7 @@ This project analyzes longitudinal data from the Health and Retirement Study (20
 # Requirement
 R version 4.2 or higher
 
-# Scripts Descriptions
+# Scripts descriptions
 - The file "HRS 01 Data Extraction.R" extract raw data from HRS survey databases for subsequent analysis.
 - The file "HRS 02 Data Cleaning.R" conduct data cleaning on the extracted datasets to generate clean, analysis-ready datasets.
 - The file "HRS 03 All-cause mortality.R", "HRS 03 Cardiovascular.R", "HRS 03 Disability.R", "HRS 03 Dementia.R", "HRS 03 Depression.R" outline the methodology employed to process and analyze data related to different health outcomes in this project.
