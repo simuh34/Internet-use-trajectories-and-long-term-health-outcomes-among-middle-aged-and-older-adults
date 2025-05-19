@@ -6,34 +6,6 @@ df$digital_usage <- ifelse(df$int_5 == '00000',"Never users",
                                                                                                             |df$int_5 == '01100'|df$int_5 == '01110'|df$int_5 == '10000'|df$int_5 == '11000'
                                                                                                             |df$int_5 == '11100'|df$int_5 == '11110',"Dropouts","Intermittent Users"))))
 
-#2. imputation
-df_converted <- df[, c("age","gender","education_year","highest_degree","H_education",
-                       "marital_status","employment_status","residence_region","equivalized_wealth",
-                       "living_with_others","education_mother_year","education_father_year",
-                       "residence_rural","Race")]
-classes <- sapply(df_converted, class)
-labelled_vars <- names(classes[classes == "labelled"])
-df_converted <- df_converted %>%
-  mutate_if(names(.) %in% c("gender","highest_degree","H_education",
-                            "marital_status","employment_status","residence_region","health_condition",
-                            "living_with_others",
-                            "residence_rural","Race"), as.factor)
-set.seed(1005)
-mice_mod <- mice(df_converted, method = "cart", m =1, maxit = 1)
-imputed_data <- complete(mice_mod)
-common_cols <- intersect(names(df), names(imputed_data))
-df[common_cols] <- imputed_data[common_cols]
-
-#3.iptw
-iptw_m <- multinom(digital_usage ~ age  + gender + Race 
-                   + H_education + marital_status , 
-                   data = df)
-df$propensity_scores <- predict(iptw_m, type = "probs")  
-for (i in 1:5) {  
-  df$iptw_weight[df$digital_usage == levels(df$digital_usage)[i]] <- 
-    1 / df$propensity_scores[df$digital_usage == levels(df$digital_usage)[i], i]
-}
-
 #2.ipaw
 df <- df %>%
   mutate(
@@ -87,19 +59,3 @@ df <- df %>%
 df %>%
   select(ipcw_cum_inw11, ipcw_cum_inw12, ipcw_cum_inw13, ipcw_cum_inw14) %>%
   summary()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
