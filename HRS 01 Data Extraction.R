@@ -1,6 +1,6 @@
 library(haven)
-data_h <- read_dta('D:\\R project\\data\\H_HRS_c.dta')
-data_r <- read_dta('D:\\R project\\data\\randhrs1992_2020v2.dta')
+data_h <- read_dta('H_HRS_c.dta')
+data_r <- read_dta('randhrs1992_2020v2.dta')
 
 subdat_demo <- subset(data_r,
                    select = c(inw6,r10iwstat,r11iwstat,r12iwstat,r13iwstat,r14iwstat,r6wtresp,hhid,hhidpn,
@@ -32,8 +32,6 @@ subdat_chr <- subset(data_r, select = c(hhid,hhidpn,r10conds,r11conds,r12conds,r
 data01 <- merge(data01, subdat_dise, by = c("hhid","hhidpn"))
 data01 <- merge(data01, subdat_adl, by = c("hhid","hhidpn"))
 data01 <- merge(data01, subdat_chr, by = c("hhid","hhidpn"))
-
-write.csv(data01,'D:\\R project\\Digital\\HRS\\hrs.csv')
 
 colnames(data01)
 
