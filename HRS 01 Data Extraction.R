@@ -1,4 +1,3 @@
-library(haven)
 data_h <- read_dta('H_HRS_c.dta')
 data_r <- read_dta('randhrs1992_2020v2.dta')
 
@@ -26,12 +25,11 @@ subdat_dise <- subset(data_r,
                               
 subdat_adl <- subset(data_r,
                    select = c(hhid,hhidpn,r10walkra, r11walkra, r12walkra, r13walkra, r14walkra, r10dressa, r11dressa, r12dressa, r13dressa, r14dressa, r10batha, r11batha, r12batha, r13batha, r14batha, r10eata, r11eata, r12eata, r13eata, r14eata,r10beda, r11beda, r12beda, r13beda, r14beda, r10toilta, r11toilta, r12toilta, r13toilta, r14toilta))
-
 subdat_chr <- subset(data_r, select = c(hhid,hhidpn,r10conds,r11conds,r12conds,r13conds,r14conds))
 
 data01 <- merge(data01, subdat_dise, by = c("hhid","hhidpn"))
 data01 <- merge(data01, subdat_adl, by = c("hhid","hhidpn"))
 data01 <- merge(data01, subdat_chr, by = c("hhid","hhidpn"))
 
-colnames(data01)
+
 
