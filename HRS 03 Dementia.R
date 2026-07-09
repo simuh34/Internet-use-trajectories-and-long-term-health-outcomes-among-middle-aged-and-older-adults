@@ -124,7 +124,7 @@ library(survival)
 surv_obj <- Surv(time = df_dementia$event_time, event = df_dementia$event_status)
 model_dementia <- coxph(surv_obj ~ digital_usage + age + age_sq + gender + Race + 
                      residence_rural + H_education + marital_status + 
-                     equivalized_wealth, data = df_dementia, weights = iptw_weight)
+                     equivalized_wealth + employment_status, data = df_dementia, weights = iptw_weight)
 summary(model_dementia)
 exp(confint(model_dementia))
 
@@ -133,7 +133,7 @@ summary(model_dementia_unadjusted)
 
 model_dementia_nw <- coxph(surv_obj ~ digital_usage + age + age_sq + gender + Race + 
                         residence_rural + H_education + marital_status + 
-                        equivalized_wealth, data = df_dementia, weights = iptw_weight)
+                        equivalized_wealth + employment_status, data = df_dementia, weights = iptw_weight)
 summary(model_dementia_nw)
 
 ####cip####
@@ -256,7 +256,7 @@ summary(df_dementia$event_status[df_dementia$digital_usage == "Never users"])
 model_dementia <- coxph(Surv(event_time, event_status) ~ 
                                  digital_usage + gender  + age + age_sq + Race + 
                                  residence_rural + H_education + marital_status + 
-                                 equivalized_wealth, 
+                                 equivalized_wealth + employment_status, 
                                data = df_dementia, weights = iptw_weight)
 summary(model_dementia)
 conf_int <- confint(model_dementia_inter)
@@ -267,7 +267,7 @@ round(exp(conf_int), 2)
 model_dementia_gender_inter <- coxph(Surv(event_time, event_status) ~ 
                                         digital_usage*gender  + age + age_sq + Race + 
                                         residence_rural + H_education + marital_status + 
-                                        equivalized_wealth, 
+                                        equivalized_wealth + employment_status, 
                                       data = df_dementia, weights = iptw_weight)
 summary(model_dementia_gender_inter)
 conf_int <- confint(model_dementia_gender_inter)
@@ -277,7 +277,7 @@ round(exp(conf_int), 2)
 model_dementia_race_inter <- coxph(Surv(event_time, event_status) ~ 
                                       digital_usage * Race + gender  + age + age_sq + 
                                       residence_rural + H_education + marital_status + 
-                                      equivalized_wealth, 
+                                      equivalized_wealth + employment_status, 
                                     data = df_dementia, weights = iptw_weight)
 summary(model_dementia_race_inter)
 conf_int <- confint(model_dementia_race_inter)
@@ -287,7 +287,7 @@ round(exp(conf_int), 2)
 model_dementia_rural_inter <- coxph(Surv(event_time, event_status) ~ 
                                        digital_usage * residence_rural + Race + gender  + age + age_sq + 
                                        residence_rural + H_education + marital_status + 
-                                       equivalized_wealth, 
+                                       equivalized_wealth + employment_status, 
                                      data = df_dementia, weights = iptw_weight)
 summary(model_dementia_rural_inter)
 conf_int <- confint(model_dementia_rural_inter)
@@ -296,7 +296,7 @@ round(exp(conf_int), 2)
 #wealth interaction
 model_dementia_wealth_inter <- coxph(Surv(event_time, event_status) ~ 
                                         digital_usage * equivalized_wealth + residence_rural + Race + gender  + age + age_sq + 
-                                        residence_rural + H_education + marital_status, 
+                                        residence_rural + H_education + marital_status + employment_status, 
                                       data = df_dementia, weights = iptw_weight)
 summary(model_dementia_wealth_inter)
 conf_int <- confint(model_dementia_wealth_inter)
@@ -315,7 +315,7 @@ lrt_4 <- lrtest(model_dementia_inter, model_dementia_wealth_inter)
 model_dementia_men <- coxph(Surv(event_time, event_status) ~ 
                          digital_usage + age + age_sq + Race + 
                          residence_rural + H_education + marital_status + 
-                         equivalized_wealth, 
+                         equivalized_wealth + employment_status, 
                        data = df_dementia[df_dementia$gender == "Men",], weights = iptw_weight)
 summary(model_dementia_men)
 conf_int <- confint(model_dementia_men)
@@ -325,7 +325,7 @@ round(exp(conf_int), 2)
 model_dementia_women <- coxph(Surv(event_time, event_status) ~ 
                            digital_usage  + age + age_sq + Race + 
                            residence_rural + H_education + marital_status + 
-                           equivalized_wealth, 
+                           equivalized_wealth + employment_status, 
                          data = df_dementia[df_dementia$gender == "Women",], weights = iptw_weight)
 conf_int <- confint(model_dementia_women)
 round(exp(conf_int), 2)
@@ -337,7 +337,7 @@ summary(model_dementia_women)
 model_dementia_white <- coxph(Surv(event_time, event_status) ~ 
                            digital_usage + age + age_sq  + 
                            residence_rural + H_education + marital_status + 
-                           equivalized_wealth, 
+                           equivalized_wealth + employment_status, 
                          data = df_dementia[df_dementia$Race == "Non-Hispanic White",], weights = iptw_weight)
 conf_int <- confint(model_dementia_white)
 round(exp(conf_int), 2)
@@ -347,7 +347,7 @@ confint(model_dementia_white)
 model_dementia_other <- coxph(Surv(event_time, event_status) ~ 
                            digital_usage  + age + age_sq + 
                            residence_rural + H_education + marital_status + 
-                           equivalized_wealth, 
+                           equivalized_wealth + employment_status, 
                          data = df_dementia[df_dementia$Race == "Other",], weights = iptw_weight)
 summary(model_dementia_other)
 conf_int <- confint(model_dementia_other)
@@ -360,7 +360,7 @@ summary(model_dementia_white,model_dementia_other)
 model_dementia_rural <- coxph(Surv(event_time, event_status) ~ 
                                   digital_usage + age + age_sq  + 
                                   H_education + marital_status + 
-                                  equivalized_wealth, 
+                                  equivalized_wealth + employment_status, 
                                 data = df_dementia[df_dementia$residence_rural == "rural",], weights = iptw_weight)
 summary(model_dementia_rural)
 conf_int <- confint(model_dementia_rural)
@@ -371,7 +371,7 @@ confint(model_dementia_rural)
 model_dementia_urban <- coxph(Surv(event_time, event_status) ~ 
                                   digital_usage  + age + age_sq + 
                                   H_education + marital_status + 
-                                  equivalized_wealth, 
+                                  equivalized_wealth + employment_status, 
                                 data = df_dementia[df_dementia$residence_rural == "urban",], weights = iptw_weight)
 summary(model_dementia_urban)
 conf_int <- confint(model_dementia_urban)
@@ -382,7 +382,7 @@ summary(model_dementia_rural,model_dementia_urban)
 ##lower
 model_dementia_low <- coxph(Surv(event_time, event_status) ~ 
                          digital_usage + age + age_sq  + 
-                         H_education + marital_status + residence_rural, 
+                         H_education + marital_status + residence_rural + employment_status, 
                        data = df_dementia[df_dementia$equivalized_wealth == "Lower wealth",], weights = iptw_weight)
 summary(model_adl_low)
 conf_int <- confint(model_dementia_low)
@@ -393,7 +393,7 @@ confint(model_adl_low)
 model_dementia_high <- coxph(Surv(event_time, event_status) ~ 
                           digital_usage  + age + age_sq + 
                           H_education + marital_status + 
-                          residence_rural, 
+                          residence_rural + employment_status, 
                         data = df_dementia[df_dementia$equivalized_wealth == "Upper wealth",], weights = iptw_weight)
 summary(model_adl_high)
 conf_int <- confint(model_dementia_high)
@@ -463,7 +463,7 @@ df_dementia_lag <- df_dementia[df_dementia_lag$death_year > 2012 | is.na(df_deme
 model_dementia_lag <- coxph(Surv(event_time, event_status) ~ 
                                digital_usage + age + age_sq + gender + Race + 
                                residence_rural + H_education + marital_status + 
-                               equivalized_wealth, 
+                               equivalized_wealth + employment_status, 
                              data = df_dementia_lag, weights = iptw_weight)
 summary(model_dementia_lag)
 conf_int <- confint(model_dementia_lag)
@@ -483,7 +483,7 @@ df_complete <- df_dementia[rowSums(is.na(df_dementia[, c("c_w6","c_w7","c_w8","c
 model_dementia_complete <- coxph(Surv(event_time, event_status) ~ 
                                     digital_usage + age + age_sq + gender + Race + 
                                     residence_rural + H_education + marital_status + 
-                                    equivalized_wealth, 
+                                    equivalized_wealth + employment_status, 
                                   data = df_complete, weights = iptw_weight)
 summary(model_dementia_complete)
 conf_int <- confint(model_dementia_complete)
@@ -505,7 +505,7 @@ df_dementia$WEIGHT[df_dementia$WEIGHT <= 0] <- 1e-6
 model_dementia_sample <- coxph(Surv(event_time, event_status) ~ 
                                   digital_usage + age + age_sq + gender + Race + 
                                   residence_rural + H_education + marital_status + 
-                                  equivalized_wealth, 
+                                  equivalized_wealth + employment_status, 
                                 data = df_dementia, weights = iptw_weight * WEIGHT)
 summary(model_dementia_sample)
 conf_int <- confint(model_dementia_sample)
@@ -526,7 +526,7 @@ df_dementia_iptw5 <- filter(df_dementia, df_dementia$iptw_weight < 10)
 model_dementia_iptw5 <- coxph(Surv(event_time, event_status) ~ 
                                  digital_usage + age + age_sq + gender + Race + 
                                  residence_rural + H_education + marital_status + 
-                                 equivalized_wealth, 
+                                 equivalized_wealth + employment_status, 
                                data = df_dementia_iptw5, weights = iptw_weight * WEIGHT)
 summary(model_dementia_iptw5)
 conf_int <- confint(model_dementia_iptw5)
@@ -547,7 +547,7 @@ df_dementia$iptw_weight[df_dementia$iptw_weight <= 0] <- 1e-6
 model_dementia_sample <- coxph(Surv(event_time, event_status) ~ 
                                   digital_usage + age + age_sq + gender + Race + 
                                   residence_rural + H_education + marital_status + 
-                                  equivalized_wealth, 
+                                  equivalized_wealth + employment_status, 
                                 data = df_dementia, weights = iptw_weight * ipcw_cum_inw14)
 summary(model_dementia_sample)
 conf_int <- confint(model_dementia_sample)
